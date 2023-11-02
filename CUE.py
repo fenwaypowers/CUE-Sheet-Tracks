@@ -8,22 +8,27 @@ def timedif(i1,i2):
     b=(int(i2[0])*60)+int(i2[1])
     return b-a
 def cuedata(pth):
- with open(pth,"+r",encoding="utf-8") as ff:
-  f=ff.read()
-  k=f.encode('utf-8')
- ff=k.split(b"TRACK")
- ff.pop(0)
- for i in ff:
-  for spi in i.split(b"\n"):
-    for ky in metadata:
-        if ky in spi:
-            if ky==b"INDEX":
-                spi=spi.split(ky)[1].strip().split(b" ")[1]
-            else:
-                spi=spi.split(ky)[1].strip().strip(b'""')
-            metadata[ky].append(spi)
-            break
- return metadata
+    try:
+        with open(pth, "r", encoding="utf-8") as ff:
+            f = ff.read()
+    except UnicodeDecodeError:
+        with open(pth, "r", encoding="iso-8859-1") as ff:
+            f = ff.read()
+    
+    k = f.encode('utf-8')
+    ff = k.split(b"TRACK")
+    ff.pop(0)
+    for i in ff:
+        for spi in i.split(b"\n"):
+            for ky in metadata:
+                if ky in spi:
+                    if ky == b"INDEX":
+                        spi = spi.split(ky)[1].strip().split(b" ")[1]
+                    else:
+                        spi = spi.split(ky)[1].strip().strip(b'""')
+                    metadata[ky].append(spi)
+                    break
+    return metadata
 def validtitle(name):
     for inva in ['/','\\','?','%','*',':', '|', '”', '<','>']:
         if inva in name:
