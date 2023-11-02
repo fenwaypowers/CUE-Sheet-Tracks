@@ -83,16 +83,17 @@ def main(arg=sys.argv[1:]):
             wolfe=0
             print("\n","—"*55)
             for i in datacu[b'TITLE']:
-                i=i.decode('utf-8')
-                ior=validtitle(i)
-                otfl=f'{ior+"_tmp"+ext}'
-                otfl_fn=f'{ior+ext}'
+                i = i.decode('utf-8')
+                ior = validtitle(i)
+                track_number = str(a + 1) 
+                otfl = f'{track_number}. {ior}_tmp{ext}' 
+                otfl_fn = f'{track_number}. {ior}{ext}' 
                 if dspth:
-                    otfl=dspth+"\\"+otfl
-                    otfl_fn=dspth+"\\"+otfl_fn
-                tit=f'title={i}'
-                artt='artist='+datacu[b'PERFORMER'][a].decode('utf-8')
-                atime=datacu[b'INDEX'][b:b+2]
+                    otfl = os.path.join(dspth, otfl)
+                    otfl_fn = os.path.join(dspth, otfl_fn)
+                tit = f'title={i}'
+                artt = 'artist=' + datacu[b'PERFORMER'][a].decode('utf-8')
+                atime = datacu[b'INDEX'][b:b+2]
                 if len(atime)==1:
                     wolfe=1
                     stime=atime[0].decode('utf-8')
